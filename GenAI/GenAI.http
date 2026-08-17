@@ -4,3 +4,59 @@ GET {{GenAI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# Start a new conversation with the agent
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "Hello! What can you help me with?"
+}
+
+###
+
+# Continue an existing conversation (replace with the conversationId from the previous response)
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "Summarize what we discussed so far.",
+  "conversationId": "REPLACE-WITH-CONVERSATION-ID"
+}
+
+###
+
+# End a conversation and delete its history
+DELETE {{GenAI_HostAddress}}/api/agent/conversations/REPLACE-WITH-CONVERSATION-ID
+
+###
+
+# Tool call: weather
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "What is the current weather in Doha?"
+}
+
+###
+
+# Tool call: currency conversion
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "Convert 1000 QAR to INR"
+}
+
+###
+
+# Both tools in a single turn
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "What is the weather in Pune, and how much is 50 EUR in QAR?"
+}
+
+###
