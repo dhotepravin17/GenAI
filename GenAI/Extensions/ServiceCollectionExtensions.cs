@@ -15,7 +15,7 @@ namespace GenAI.Extensions
         /// Configuration is validated at startup so a missing endpoint or API key
         /// fails fast instead of at first request.
         /// </summary>
-        public static IServiceCollection AddAzureFoundryAgent(this IServiceCollection services)
+        public static IServiceCollection AddAzureFoundryAgent(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions<AzureAIFoundryOptions>()
                 .BindConfiguration(AzureAIFoundryOptions.SectionName)
@@ -29,6 +29,12 @@ namespace GenAI.Extensions
             });
 
             services.AddSingleton<IConversationStore, InMemoryConversationStore>();
+            services.AddSingleton<IContextStore, InMemoryContextStore>();
+
+            // Tracing powers the raw message window; turn it off in production
+            // where recording prompts and tool arguments is not appropriate.
+            var traceEnabled = configuration.GetValue("Diagnostics:EnableAgentTrace", true);
+            services.AddSingleton<IAgentTraceRecorder>(_ => new AgentTraceRecorder(traceEnabled));
             services.AddAgentTools();
 
             // Both agent implementations are registered; AzureAIFoundry:UseAgentFramework

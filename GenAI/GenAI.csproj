@@ -8,6 +8,23 @@
     <!-- Surface XML doc comments in the OpenAPI document / Swagger UI. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+
+    <!-- SpaProxy starts the React dev server when the API is launched from
+         Visual Studio. Only used by the "API + React client" launch profile. -->
+    <SpaRoot>..\client\</SpaRoot>
+    <SpaProxyServerUrl>http://localhost:5173</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <!-- This machine resolves "npm" through an nvm symlink into another user's
+         profile, which fails with EPERM. Prefer the working Node install when it
+         is present. The 8.3 path avoids spaces: SpaProxy splits the command on
+         the first space, so a quoted path would not start. Delete this line once
+         the system PATH prefers C:\Program Files
+odejs. -->
+    <SpaProxyLaunchCommand Condition="Exists('$(ProgramW6432)
+odejs
+pm.cmd')">C:\PROGRA~1
+odejs
+pm.cmd run dev</SpaProxyLaunchCommand>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +33,7 @@
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
     <PackageReference Include="Microsoft.Agents.AI.OpenAI" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
   </ItemGroup>
 

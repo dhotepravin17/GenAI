@@ -1,10 +1,5 @@
 @GenAI_HostAddress = http://localhost:5217
 
-GET {{GenAI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
 # Start a new conversation with the agent
 POST {{GenAI_HostAddress}}/api/agent/chat
 Content-Type: application/json
@@ -58,5 +53,49 @@ Content-Type: application/json
 {
   "message": "What is the weather in Pune, and how much is 50 EUR in QAR?"
 }
+
+###
+
+# ---------- Conversation context (stored in API memory) ----------
+
+# Save context (replaces anything stored)
+PUT {{GenAI_HostAddress}}/api/agent/conversations/my-conversation/context
+Content-Type: application/json
+
+{
+  "context": "The user is Pravin, a .NET developer based in Doha, Qatar."
+}
+
+###
+
+# Append to the stored context
+POST {{GenAI_HostAddress}}/api/agent/conversations/my-conversation/context
+Content-Type: application/json
+
+{
+  "context": "He prefers short answers."
+}
+
+###
+
+# Read the stored context
+GET {{GenAI_HostAddress}}/api/agent/conversations/my-conversation/context
+Accept: application/json
+
+###
+
+# Chat using the stored context
+POST {{GenAI_HostAddress}}/api/agent/chat
+Content-Type: application/json
+
+{
+  "message": "What is the weather where I live?",
+  "conversationId": "my-conversation"
+}
+
+###
+
+# Clear the stored context
+DELETE {{GenAI_HostAddress}}/api/agent/conversations/my-conversation/context
 
 ###

@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api",
+      "program": "${workspaceFolder}/GenAI/bin/Debug/net10.0/GenAI.dll",
+      "cwd": "${workspaceFolder}/GenAI",
+      // launchSettings.json is ignored so the URLs here are authoritative and
+      // SpaProxy (used by Visual Studio) does not also try to start the client.
+      "launchSettingsProfile": null,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:7088;http://localhost:5217"
+      },
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Client",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "start-client",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/client/src"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "API + Client",
+      "configurations": ["API", "Client"],
+      "stopAll": true,
+      "presentation": { "order": 1 }
+    }
+  ]
+}

@@ -31,9 +31,6 @@ namespace GenAI.Configuration
         [Required]
         public string DeploymentName { get; init; } = string.Empty;
 
-        /// <summary>Optional embedding model deployment (e.g. text-embedding-ada-002).</summary>
-        public string? EmbeddingDeployment { get; init; }
-
         /// <summary>System instructions that define the agent's behavior.</summary>
         [Required]
         public string SystemPrompt { get; init; } =
